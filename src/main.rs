@@ -1,3 +1,5 @@
+mod tools;
+
 mod day_0;
 
 use clap::Parser;
