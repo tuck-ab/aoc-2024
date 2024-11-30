@@ -57,3 +57,7 @@ function generate_run_line {
     echo "        $1 => run::<day_$1::Day$1>(args.part),"
 }
 sed -i "s/$(generate_run_line $target_mod)/$(generate_run_line $target_mod)\n$(generate_run_line $DAY)/" src/main.rs
+
+# Add the input file
+touch inputs/day${DAY}.txt
+# TODO auto populate data
