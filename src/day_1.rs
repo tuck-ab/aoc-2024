@@ -13,11 +13,11 @@ impl Solution for Day1 {
         left_side.sort();
         right_side.sort();
 
-        let mut total = 0;
-
-        for (left, right) in left_side.iter().zip(right_side.iter()) {
-            total += (left - right).abs();
-        }
+        let total = left_side
+            .iter()
+            .zip(right_side.iter())
+            .map(|(left, right)| (left - right).abs())
+            .sum::<i32>();
 
         println!("{}", total);
     }
@@ -33,11 +33,10 @@ impl Solution for Day1 {
                 m
             });
 
-        let mut total = 0;
-
-        for num in left_side {
-            total += num * counts.get(&num).unwrap_or(&0);
-        }
+        let total = left_side
+            .iter()
+            .map(|n| n * counts.get(n).unwrap_or(&0))
+            .sum::<i32>();
 
         println!("{}", total);
     }
@@ -48,16 +47,12 @@ fn get_numbers(input: String) -> (Vec<i32>, Vec<i32>) {
     let mut right_side = Vec::<i32>::new();
 
     for line in input.lines() {
-        let numbers: Vec<i32> = line
+        for (n, v) in line
             .split("   ")
             .map(|n| n.parse::<i32>().expect("Couldn't parse num"))
-            .collect();
-
-        for (v, num) in vec![&mut left_side, &mut right_side]
-            .iter_mut()
-            .zip(numbers)
+            .zip([&mut left_side, &mut right_side])
         {
-            v.push(num)
+            v.push(n);
         }
     }
 
