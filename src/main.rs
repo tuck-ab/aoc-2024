@@ -1,6 +1,7 @@
 mod tools;
 
 mod day_0;
+mod day_1;
 
 use clap::Parser;
 
@@ -27,6 +28,7 @@ fn main() {
 
     match args.day {
         0 => run::<day_0::Day0>(args.part),
+        1 => run::<day_1::Day1>(args.part),
         _ => panic!("Day '{}' not implemented", args.day),
     }
 }
