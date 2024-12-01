@@ -59,5 +59,9 @@ function generate_run_line {
 sed -i "s/$(generate_run_line $target_mod)/$(generate_run_line $target_mod)\n$(generate_run_line $DAY)/" src/main.rs
 
 # Add the input file
-touch inputs/day${DAY}.txt
-# TODO auto populate data
+source .env
+curl \
+    --cookie "_ga=${_ga};_gid=${_gid};session=$session"\
+    "https://adventofcode.com/2024/day/1/input" \
+    -o "inputs/day${DAY}.txt"
+
