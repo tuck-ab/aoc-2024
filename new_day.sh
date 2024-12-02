@@ -62,6 +62,6 @@ sed -i "s/$(generate_run_line $target_mod)/$(generate_run_line $target_mod)\n$(g
 source .env
 curl \
     --cookie "_ga=${_ga};_gid=${_gid};session=$session"\
-    "https://adventofcode.com/2024/day/1/input" \
+    "https://adventofcode.com/2024/day/${DAY}/input" \
     -o "inputs/day${DAY}.txt"
 
