@@ -56,12 +56,11 @@ impl Solution for Day2 {
                 || check_safe(line, Some(error_index + 1)).is_none()
             {
                 total += 1;
-            } else {
-                println!("{}", line);
-                println!("{}", error_index);
-                break;
+            } else if error_index > 0 {
+                if check_safe(line, Some(error_index - 1)).is_none() {
+                    total += 1;
+                }
             }
-            
         }
 
         println!("{}", total)
