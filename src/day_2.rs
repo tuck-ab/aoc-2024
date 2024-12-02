@@ -1,3 +1,5 @@
+use std::ops::Not;
+
 use crate::tools::load_input;
 use crate::Solution;
 
@@ -7,32 +9,11 @@ impl Solution for Day2 {
     fn part_1() {
         let data = load_input(2);
 
-        let mut total = 0;
-
-        for line in data.lines() {
-            let mut ops: u8 = 0;
-            let values: Vec<i32> = line
-                .split(" ")
-                .map(|v| v.parse::<i32>().expect("Could not parse number"))
-                .collect();
-            for (v1, v2) in values.iter().zip(values[1..].iter()) {
-                if v1 < v2 {
-                    ops |= 1
-                } else if v1 > v2 {
-                    ops |= 2
-                } else {
-                    ops |= 4
-                }
-
-                if (v1 - v2).abs() > 3 {
-                    ops |= 4
-                }
-            }
-
-            if ops == 1 || ops == 2 {
-                total += 1
-            }
-        }
+        let total = data
+            .lines()
+            .map(|l| check_safe(l, None))
+            .filter(|r| r.is_none())
+            .count();
 
         println!("{}", total);
     }
@@ -40,28 +21,20 @@ impl Solution for Day2 {
     fn part_2() {
         let data = load_input(2);
 
-        let mut total = 0;
-
-        for line in data.lines() {
-            let res = check_safe(line, None);
-            if res.is_none() {
-                total += 1;
-                continue;
-            }
-
-            let error_index = res.unwrap();
-            
-
-            if check_safe(line, Some(error_index)).is_none()
-                || check_safe(line, Some(error_index + 1)).is_none()
-            {
-                total += 1;
-            } else if error_index > 0 {
-                if check_safe(line, Some(error_index - 1)).is_none() {
-                    total += 1;
-                }
-            }
-        }
+        let total = data
+            .lines()
+            .map(|l| {
+                check_safe(l, None).map(|i| (l, i)).and_then(|(l, i)| {
+                    (0..i + 2)
+                        .rev()
+                        .zip(0..3)
+                        .any(|(x, _)| check_safe(l, Some(x)).is_none())
+                        .not()
+                        .then(|| 0)
+                })
+            })
+            .filter(|x| x.is_none())
+            .count();
 
         println!("{}", total)
     }
@@ -73,28 +46,13 @@ fn check_safe(line: &str, remove_index: Option<usize>) -> Option<usize> {
         .map(|v| v.parse::<i32>().expect("Could not parse number"))
         .collect();
 
-    match remove_index {
-        Some(index) => {
-            values.remove(index);
-        }
-        _ => (),
-    };
+    remove_index.map(|i| values.remove(i));
 
     let mut flag = 0;
     for (i, (v1, v2)) in values.iter().zip(values[1..].iter()).enumerate() {
-        if v1 < v2 {
-            flag |= 1
-        } else if v1 > v2 {
-            flag |= 2
-        } else {
-            flag |= 4
-        }
+        flag |= 1 << (v1 < v2) as i8;
 
-        if (v1 - v2).abs() > 3 {
-            flag |= 4
-        }
-
-        if !(flag == 1 || flag == 2) {
+        if flag == 3 || (v1 - v2).abs() > 3 || v1 == v2 {
             return Some(i);
         }
     }
