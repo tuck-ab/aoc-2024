@@ -18,8 +18,6 @@ impl Solution for Day3 {
     }
 
     fn part_2() {
-        Day3::charlotte_sol();
-        return;
         let data = load_input(3);
         let mul_re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)").unwrap();
         let do_re = Regex::new(r"do\(\)").unwrap();
