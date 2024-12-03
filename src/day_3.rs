@@ -18,6 +18,8 @@ impl Solution for Day3 {
     }
 
     fn part_2() {
+        Day3::charlotte_sol();
+        return;
         let data = load_input(3);
         let mul_re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)").unwrap();
         let do_re = Regex::new(r"do\(\)").unwrap();
@@ -52,6 +54,30 @@ impl Solution for Day3 {
             .map(|c| c.extract())
             .map(|(_, [n1, n2])| n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap())
             .sum();
+
+        println!("{}", total)
+    }
+
+    
+}
+
+impl Day3 {
+    pub fn charlotte_sol() {
+        let data = load_input(3);
+        let re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)|(d)(o)\(\)|(d)(o)n't\(\)").unwrap();
+
+        let mut flag = true;
+
+        let total: i32 = re
+            .captures_iter(&data)
+            .map(|c| c.extract())
+            .map(|(m, [n1, n2])| match m {
+                "do()" => {flag = true; 0},
+                "don't()" => {flag = false; 0},
+                _ => flag.then( ||
+                    n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap()
+                ).unwrap_or(0)
+            }).sum();
 
         println!("{}", total)
     }
