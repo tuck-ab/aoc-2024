@@ -9,7 +9,8 @@ impl Solution for Day3 {
     fn part_1() {
         let data = load_input(3);
         let re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)").unwrap();
-        let total: i32 = re.captures_iter(&data)
+        let total: i32 = re
+            .captures_iter(&data)
             .map(|c| c.extract())
             .map(|(_, [n1, n2])| n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap())
             .sum();
@@ -22,8 +23,14 @@ impl Solution for Day3 {
         let do_re = Regex::new(r"do\(\)").unwrap();
         let dont_re = Regex::new(r"don't\(\)").unwrap();
 
-        let do_locs: Vec<usize> = do_re.find_iter(&data).map(|c| c.range().nth(0).unwrap()).collect();
-        let dont_locs: Vec<usize> = dont_re.find_iter(&data).map(|c| c.range().nth(0).unwrap()).collect();
+        let do_locs: Vec<usize> = do_re
+            .find_iter(&data)
+            .map(|c| c.range().nth(0).unwrap())
+            .collect();
+        let dont_locs: Vec<usize> = dont_re
+            .find_iter(&data)
+            .map(|c| c.range().nth(0).unwrap())
+            .collect();
 
         let mut do_index = 0;
         let mut do_string: String = "".to_string();
@@ -40,11 +47,12 @@ impl Solution for Day3 {
             };
         }
 
-        let total: i32 = mul_re.captures_iter(&do_string)
+        let total: i32 = mul_re
+            .captures_iter(&do_string)
             .map(|c| c.extract())
             .map(|(_, [n1, n2])| n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap())
             .sum();
+
         println!("{}", total)
-        
     }
 }
