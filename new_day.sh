@@ -26,16 +26,19 @@ fi
 
 # Create the new file
 cat > $RUST_DAY_FILE <<- EOM
+use crate::tools::load_input;
 use crate::Solution;
 
 pub(crate) struct Day${DAY};
 
 impl Solution for Day${DAY} {
     fn part_1() {
+        let data = load_input(${DAY});
         println!("Day ${DAY}, part 1")
     }
 
     fn part_2() {
+        let data = load_input(${DAY});
         println!("Day ${DAY}, part 2")
     }
 }
