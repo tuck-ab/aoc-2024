@@ -1,7 +1,4 @@
-use std::fs;
-use std::fmt::Debug;
-use std::clone::Clone;
-use std::default::Default;
+use std::{clone, default, fs};
 
 pub fn load_input(day: u8) -> String {
     fs::read_to_string(format!("inputs/day{}.txt", day)).expect("Could not open input file")
@@ -10,17 +7,13 @@ pub fn load_input(day: u8) -> String {
 
 #[derive(Debug)]
 pub struct Vec2D<T> {
-    pub data: Vec<T>,
+    data: Vec<T>,
     rows: usize,
     cols: usize,
 }
 
-impl<T> Vec2D<T> where T: Default + Clone + Debug {
+impl<T> Vec2D<T> where T: default::Default + clone::Clone {
     pub fn new(rows: usize, cols: usize) -> Self {
-        // let mut data = Vec::<T>::with_capacity(rows * cols);
-        // data.fill_with(Default::default);
-
-        // println!("{}", data.len());
         Self {
             data: vec![T::default(); rows*cols],
             rows,
