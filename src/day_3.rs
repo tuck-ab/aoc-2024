@@ -60,6 +60,7 @@ impl Solution for Day3 {
 }
 
 impl Day3 {
+    #[allow(dead_code)]
     pub fn charlotte_sol() {
         let data = load_input(3);
         let re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)|(d)(o)\(\)|(d)(o)n't\(\)").unwrap();
