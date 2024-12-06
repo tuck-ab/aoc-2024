@@ -4,7 +4,7 @@ use crate::Solution;
 pub(crate) struct Day4;
 
 impl Solution for Day4 {
-    fn part_1() {
+    fn part_1() -> String {
         let data = load_input(4);
         let grid = get_grid(data);
 
@@ -45,10 +45,10 @@ impl Solution for Day4 {
             }
         }
 
-        println!("{}", total)
+        total.to_string()
     }
 
-    fn part_2() {
+    fn part_2() -> String {
         let data = load_input(4);
         let grid = get_grid(data);
 
@@ -84,7 +84,7 @@ impl Solution for Day4 {
             }
         }
 
-        println!("{}", total)
+        total.to_string()
     }
 }
 

@@ -6,7 +6,7 @@ use crate::Solution;
 pub(crate) struct Day1;
 
 impl Solution for Day1 {
-    fn part_1() {
+    fn part_1() -> String {
         let input = load_input(1);
         let (mut left_side, mut right_side) = get_numbers(input);
 
@@ -19,10 +19,10 @@ impl Solution for Day1 {
             .map(|(left, right)| (left - right).abs())
             .sum::<i32>();
 
-        println!("{}", total);
+        total.to_string()
     }
 
-    fn part_2() {
+    fn part_2() -> String {
         let input = load_input(1);
         let (left_side, right_side) = get_numbers(input);
 
@@ -38,7 +38,7 @@ impl Solution for Day1 {
             .map(|n| n * counts.get(n).unwrap_or(&0))
             .sum::<i32>();
 
-        println!("{}", total);
+        total.to_string()
     }
 }
 

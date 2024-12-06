@@ -1,3 +1,7 @@
+use std::time::Instant;
+
+use clap::Parser;
+
 mod tools;
 
 mod day_0;
@@ -7,8 +11,6 @@ mod day_3;
 mod day_4;
 mod day_5;
 mod day_6;
-
-use clap::Parser;
 
 /// Args doc comment
 #[derive(Parser, Debug)]
@@ -24,14 +26,15 @@ struct Args {
 }
 
 pub(crate) trait Solution {
-    fn part_1();
-    fn part_2();
+    fn part_1() -> String;
+    fn part_2() -> String;
 }
 
 fn main() {
     let args = Args::parse();
 
-    match args.day {
+    let start_time = Instant::now();
+    let answer = match args.day {
         0 => run::<day_0::Day0>(args.part),
         1 => run::<day_1::Day1>(args.part),
         2 => run::<day_2::Day2>(args.part),
@@ -40,10 +43,15 @@ fn main() {
         5 => run::<day_5::Day5>(args.part),
         6 => run::<day_6::Day6>(args.part),
         _ => panic!("Day '{}' not implemented", args.day),
-    }
+    };
+    let time_taken = start_time.elapsed().as_secs_f32();
+
+    println!("\n=== Day {}: Part {} ===", args.day, args.part);
+    println!("Solution: {}", answer);
+    println!("Duration: {:.5} seconds", time_taken);
 }
 
-fn run<T: Solution>(part: u8) {
+fn run<T: Solution>(part: u8) -> String {
     match part {
         1 => T::part_1(),
         2 => T::part_2(),

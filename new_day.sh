@@ -32,14 +32,14 @@ use crate::Solution;
 pub(crate) struct Day${DAY};
 
 impl Solution for Day${DAY} {
-    fn part_1() {
+    fn part_1() -> String {
         let data = load_input(${DAY});
-        println!("Day ${DAY}, part 1")
+        "Day ${DAY}, part 1".to_string()
     }
 
     fn part_2() {
         let data = load_input(${DAY});
-        println!("Day ${DAY}, part 2")
+        "Day ${DAY}, part 2".to_string()
     }
 }
 EOM

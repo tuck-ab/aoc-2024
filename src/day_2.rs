@@ -6,7 +6,7 @@ use crate::Solution;
 pub(crate) struct Day2;
 
 impl Solution for Day2 {
-    fn part_1() {
+    fn part_1() -> String {
         let data = load_input(2);
 
         let total = data
@@ -15,10 +15,10 @@ impl Solution for Day2 {
             .filter(|r| r.is_none())
             .count();
 
-        println!("{}", total);
+        total.to_string()
     }
 
-    fn part_2() {
+    fn part_2() -> String {
         let data = load_input(2);
 
         let total = data
@@ -36,7 +36,7 @@ impl Solution for Day2 {
             .filter(|x| x.is_none())
             .count();
 
-        println!("{}", total)
+        total.to_string()
     }
 }
 

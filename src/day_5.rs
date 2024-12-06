@@ -13,27 +13,25 @@ type RulesMap = HashMap<usize, HashSet<usize>>;
 pub(crate) struct Day5;
 
 impl Solution for Day5 {
-    fn part_1() {
+    fn part_1() -> String {
         let data = load_input(5);
-        let total: usize = parse_input(data)
+        parse_input(data)
             .into_iter()
             .filter(|c| c.is_sorted())
             .map(|c| c[&c.len() / 2].num)
-            .sum();
-
-        println!("{}", total)
+            .sum::<usize>()
+            .to_string()
     }
 
-    fn part_2() {
+    fn part_2() -> String {
         let data = load_input(5);
-        let total: usize = parse_input(data)
+        parse_input(data)
             .into_iter()
             .filter(|c| !c.is_sorted())
             .map(|c| c.into_iter().sorted().collect::<Vec<Num>>())
             .map(|c| c[&c.len() / 2].num)
-            .sum();
-
-        println!("{}", total)
+            .sum::<usize>()
+            .to_string()
     }
 }
 

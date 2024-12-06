@@ -6,18 +6,17 @@ use crate::Solution;
 pub(crate) struct Day3;
 
 impl Solution for Day3 {
-    fn part_1() {
+    fn part_1() -> String {
         let data = load_input(3);
         let re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)").unwrap();
-        let total: i32 = re
-            .captures_iter(&data)
+        re.captures_iter(&data)
             .map(|c| c.extract())
             .map(|(_, [n1, n2])| n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap())
-            .sum();
-        println!("{}", total)
+            .sum::<i32>()
+            .to_string()
     }
 
-    fn part_2() {
+    fn part_2() -> String {
         let data = load_input(3);
         let mul_re = Regex::new(r"mul\(([0-9]+),([0-9]+)\)").unwrap();
         let do_re = Regex::new(r"do\(\)").unwrap();
@@ -47,16 +46,13 @@ impl Solution for Day3 {
             };
         }
 
-        let total: i32 = mul_re
+        mul_re
             .captures_iter(&do_string)
             .map(|c| c.extract())
             .map(|(_, [n1, n2])| n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap())
-            .sum();
-
-        println!("{}", total)
+            .sum::<i32>()
+            .to_string()
     }
-
-    
 }
 
 impl Day3 {
@@ -71,12 +67,19 @@ impl Day3 {
             .captures_iter(&data)
             .map(|c| c.extract())
             .map(|(m, [n1, n2])| match m {
-                "do()" => {flag = true; 0},
-                "don't()" => {flag = false; 0},
-                _ => flag.then( ||
-                    n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap()
-                ).unwrap_or(0)
-            }).sum();
+                "do()" => {
+                    flag = true;
+                    0
+                }
+                "don't()" => {
+                    flag = false;
+                    0
+                }
+                _ => flag
+                    .then(|| n1.parse::<i32>().unwrap() * n2.parse::<i32>().unwrap())
+                    .unwrap_or(0),
+            })
+            .sum();
 
         println!("{}", total)
     }

@@ -6,7 +6,7 @@ use crate::Solution;
 pub(crate) struct Day6;
 
 impl Solution for Day6 {
-    fn part_1() {
+    fn part_1() -> String {
         let data = load_input(6);
         let (mut grid, mut pos) = get_grid(data);
         let mut dir = 0;
@@ -27,11 +27,10 @@ impl Solution for Day6 {
             }
         }
 
-        let total = grid.data().iter().filter(|c| **c == 'X').count();
-        println!("{}", total)
+        grid.data().iter().filter(|c| **c == 'X').count().to_string()
     }
 
-    fn part_2() {
+    fn part_2() -> String {
         let data = load_input(6);
         let (mut grid, start_pos) = get_grid(data);
 
@@ -82,7 +81,7 @@ impl Solution for Day6 {
             grid.set(row, col, 'X');
         }
 
-        println!("{}", total);
+        total.to_string()
     }
 }
 
