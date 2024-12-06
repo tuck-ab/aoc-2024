@@ -51,4 +51,12 @@ impl<T> Vec2D<T> where T: default::Default + clone::Clone {
     pub fn cols(&self) -> usize {
         self.cols
     }
+
+    pub fn data(&self) -> &Vec<T> {
+        &self.data
+    }
+
+    pub fn get_loc(&self, index: usize) -> (usize, usize) {
+        (index / self.cols, index % self.cols)
+    }
 }
