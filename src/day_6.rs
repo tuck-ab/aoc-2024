@@ -1,6 +1,8 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
-use crate::tools::{load_input, Vec2D};
+use sorted_vec::SortedVec;
+
+use crate::tools::{load_demo, load_input, Vec2D};
 use crate::Solution;
 
 pub(crate) struct Day6;
@@ -32,7 +34,15 @@ impl Solution for Day6 {
     }
 
     fn part_2() {
-        let data = load_input(6);
+        let data = load_demo(6);
+        let (mut grid, start_pos) = get_grid(data);
+        let obs: Obstacles = Obstacles::new(&grid);
+    }
+}
+
+impl Day6 {
+    fn part_2() {
+        let data = load_demo(6);
         let (mut grid, start_pos) = get_grid(data);
 
         let mut dir = 0;
@@ -104,4 +114,118 @@ fn get_grid(data: String) -> (Vec2D<char>, (i32, i32)) {
     }
 
     (grid, start_pos)
+}
+
+struct Obstacles {
+    by_col: HashMap<usize, SortedVec<usize>>,
+    by_row: HashMap<usize, SortedVec<usize>>,
+}
+
+enum Direction {
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT,
+}
+
+impl Direction {
+    fn next(&self) -> Self {
+        match self {
+            Self::UP => Self::RIGHT,
+            Self::RIGHT => Self::DOWN,
+            Self::DOWN => Self::LEFT,
+            Self::LEFT => Self::UP,
+        }
+    }
+
+    fn get_changing_val(&self, loc: (usize, usize)) -> usize {
+        match *self {
+            Self::DOWN | Self::UP => loc.0,
+            Self::LEFT | Self::RIGHT => loc.1,
+        }
+    }
+
+    fn get_static_val(&self, loc: (usize, usize)) -> usize {
+        match *self {
+            Self::DOWN | Self::UP => loc.1,
+            Self::LEFT | Self::RIGHT => loc.0,
+        }
+    }
+
+    fn step(&self, loc: (usize, usize)) -> (usize, usize) {
+        match *self {
+            Self::UP => (loc.0 - 1, loc.1),
+            Self::RIGHT => (loc.0, loc.1 + 1),
+            Self::DOWN => (loc.0 + 1, loc.1),
+            Self::LEFT => (loc.1, loc.1 - 1),
+        }
+    }
+
+    fn step_back(&self, loc: (usize, usize)) -> (usize, usize) {
+        match *self {
+            Self::UP => (loc.0 + 1, loc.1),
+            Self::RIGHT => (loc.0, loc.1 - 1),
+            Self::DOWN => (loc.0 - 1, loc.1),
+            Self::LEFT => (loc.1, loc.1 + 1),
+        }
+    }
+
+    fn is_off(&self, index: usize, vec_len: usize) -> bool {
+        match *self {
+            Self::UP | Self::LEFT => index == 0,
+            Self::RIGHT | Self::DOWN => index == vec_len,
+        }
+    }
+
+    fn index_morph(&self, index: usize) -> usize {
+        match *self {
+            Self::UP | Self::LEFT => index - 1,
+            Self::RIGHT | Self::DOWN => index,
+        }
+    }
+
+    fn get_loc(&self, static_loc: usize, changing_loc: usize) -> (usize, usize) {
+        match *self {
+            Self::DOWN | Self::UP => (changing_loc, static_loc),
+            Self::LEFT | Self::RIGHT => (static_loc, changing_loc),
+        }
+    }
+}
+
+impl Obstacles {
+    fn new(data: &Vec2D<char>) -> Self {
+        let mut by_col: HashMap<usize, SortedVec<usize>> = HashMap::new();
+        let mut by_row: HashMap<usize, SortedVec<usize>> = HashMap::new();
+
+        for (i, c) in data.data().iter().enumerate().filter(|(_, cc)| **cc == '#') {
+            let (row, col) = data.get_loc(i);
+            by_row.entry(row).or_default().insert(col);
+            by_col.entry(col).or_default().insert(row);
+        }
+
+        Self { by_col, by_row }
+    }
+
+    fn get_next_target(&self, pos: (usize, usize), dir: Direction) -> Option<(usize, usize)> {
+        let by_x = match match dir {
+            Direction::DOWN | Direction::UP => &self.by_col,
+            Direction::LEFT | Direction::RIGHT => &self.by_row,
+        }
+        .get(&dir.get_changing_val(pos))
+        {
+            Some(x) => x,
+            None => return None,
+        };
+
+        let index = match by_x.binary_search(&dir.get_static_val(pos)) {
+            Ok(_) => panic!("Standing on an obtacle"),
+            Err(i) => i,
+        };
+
+        if dir.is_off(index, by_x.len()) {
+            return None;
+        } else {
+            Some(dir.get_loc(dir.get_static_val(pos), dir.index_morph(index)))
+        }
+    }
 }
