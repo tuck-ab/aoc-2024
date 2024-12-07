@@ -37,7 +37,7 @@ impl Solution for Day${DAY} {
         "Day ${DAY}, part 1".to_string()
     }
 
-    fn part_2() {
+    fn part_2() -> String {
         let data = load_input(${DAY});
         "Day ${DAY}, part 2".to_string()
     }
