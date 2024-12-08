@@ -35,6 +35,15 @@ impl<T> Vec2D<T> where T: default::Default + clone::Clone {
         }
     }
 
+    pub fn as_coord(&self, loc: &(i32, i32)) -> Option<(usize, usize)> {
+        match (usize::try_from(loc.0), usize::try_from(loc.1)) {
+            (Ok(row_usize), Ok(col_usize)) => self
+                .in_grid(row_usize, col_usize)
+                .then(|| (row_usize, col_usize)),
+            _ => None,
+        } 
+    }
+
     pub fn in_grid(&self, row: usize, col: usize) -> bool {
         row < self.rows && col < self.cols
     }
