@@ -5,15 +5,15 @@ use clap::Parser;
 mod tools;
 
 mod day_0;
-mod day_1;
-mod day_2;
-mod day_3;
-mod day_4;
-mod day_5;
-mod day_6;
-mod day_7;
-mod day_8;
-mod day_9;
+mod day_01;
+mod day_02;
+mod day_03;
+mod day_04;
+mod day_05;
+mod day_06;
+mod day_07;
+mod day_08;
+mod day_09;
 mod day_10;
 
 /// Args doc comment
@@ -40,15 +40,15 @@ fn main() {
     let start_time = Instant::now();
     let answer = match args.day {
         0 => run::<day_0::Day0>(args.part),
-        1 => run::<day_1::Day1>(args.part),
-        2 => run::<day_2::Day2>(args.part),
-        3 => run::<day_3::Day3>(args.part),
-        4 => run::<day_4::Day4>(args.part),
-        5 => run::<day_5::Day5>(args.part),
-        6 => run::<day_6::Day6>(args.part),
-        7 => run::<day_7::Day7>(args.part),
-        8 => run::<day_8::Day8>(args.part),
-        9 => run::<day_9::Day9>(args.part),
+        1 => run::<day_01::Day1>(args.part),
+        2 => run::<day_02::Day2>(args.part),
+        3 => run::<day_03::Day3>(args.part),
+        4 => run::<day_04::Day4>(args.part),
+        5 => run::<day_05::Day5>(args.part),
+        6 => run::<day_06::Day6>(args.part),
+        7 => run::<day_07::Day7>(args.part),
+        8 => run::<day_08::Day8>(args.part),
+        9 => run::<day_09::Day9>(args.part),
         10 => run::<day_10::Day10>(args.part),
         _ => panic!("Day '{}' not implemented", args.day),
     };
