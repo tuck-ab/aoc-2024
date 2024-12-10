@@ -38,20 +38,7 @@ fn main() {
     let args = Args::parse();
 
     let start_time = Instant::now();
-    let answer = match args.day {
-        0 => run::<day_0::Day0>(args.part),
-        1 => run::<day_01::Day1>(args.part),
-        2 => run::<day_02::Day2>(args.part),
-        3 => run::<day_03::Day3>(args.part),
-        4 => run::<day_04::Day4>(args.part),
-        5 => run::<day_05::Day5>(args.part),
-        6 => run::<day_06::Day6>(args.part),
-        7 => run::<day_07::Day7>(args.part),
-        8 => run::<day_08::Day8>(args.part),
-        9 => run::<day_09::Day9>(args.part),
-        10 => run::<day_10::Day10>(args.part),
-        _ => panic!("Day '{}' not implemented", args.day),
-    };
+    let answer = run(args.day, args.part);
     let time_taken = start_time.elapsed().as_secs_f32();
 
     println!("\n=== Day {}: Part {} ===", args.day, args.part);
@@ -59,10 +46,31 @@ fn main() {
     println!("Duration: {:.5} seconds", time_taken);
 }
 
-fn run<T: Solution>(part: u8) -> String {
+pub fn run(day: u8, part: u8) -> String {
+    match day {
+        0 => run_part::<day_0::Day0>(part),
+        1 => run_part::<day_01::Day1>(part),
+        2 => run_part::<day_02::Day2>(part),
+        3 => run_part::<day_03::Day3>(part),
+        4 => run_part::<day_04::Day4>(part),
+        5 => run_part::<day_05::Day5>(part),
+        6 => run_part::<day_06::Day6>(part),
+        7 => run_part::<day_07::Day7>(part),
+        8 => run_part::<day_08::Day8>(part),
+        9 => run_part::<day_09::Day9>(part),
+        10 => run_part::<day_10::Day10>(part),
+        _ => panic!("Day '{}' not implemented", day),
+    }
+}
+
+fn run_part<T: Solution>(part: u8) -> String {
     match part {
         1 => T::part_1(),
         2 => T::part_2(),
         _ => panic!("Unexpected part '{}'", part),
     }
 }
+
+
+#[cfg(test)]
+mod tests;
