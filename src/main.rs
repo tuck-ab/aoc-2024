@@ -14,6 +14,7 @@ mod day_6;
 mod day_7;
 mod day_8;
 mod day_9;
+mod day_10;
 
 /// Args doc comment
 #[derive(Parser, Debug)]
@@ -48,6 +49,7 @@ fn main() {
         7 => run::<day_7::Day7>(args.part),
         8 => run::<day_8::Day8>(args.part),
         9 => run::<day_9::Day9>(args.part),
+        10 => run::<day_10::Day10>(args.part),
         _ => panic!("Day '{}' not implemented", args.day),
     };
     let time_taken = start_time.elapsed().as_secs_f32();
