@@ -1,4 +1,4 @@
-use crate::tools::{load_input, Vec2D};
+use crate::tools::{load_input, Coord, Vec2D};
 use crate::Solution;
 
 pub(crate) struct Day4;
@@ -24,12 +24,14 @@ impl Solution for Day4 {
 
         for row in 0..grid.rows() {
             for col in 0..grid.cols() {
-                if *grid.index(row, col) == 'X' {
+                let coord = Coord::from_usize(row, col);
+                if *grid.get_index(&coord) == 'X' {
                     for (dr, dc) in dirs {
                         for (i, check_c) in check.chars().enumerate() {
-                            let c = match grid
-                                .get(row as i32 + (dr * i as i32), col as i32 + (dc * i as i32))
-                            {
+                            let c = match grid.get(&Coord::new(
+                                coord.row + (dr * i as i32),
+                                coord.col + (dc * i as i32),
+                            )) {
                                 Some(c) => c,
                                 None => break,
                             };
@@ -56,10 +58,11 @@ impl Solution for Day4 {
 
         for row in 0..grid.rows() {
             for col in 0..grid.cols() {
-                if *grid.index(row, col) == 'A' {
+                let coord = Coord::from_usize(row, col);
+                if *grid.get_index(&coord) == 'A' {
                     let diag1 = match (
-                        grid.get(row as i32 + 1, col as i32 - 1),
-                        grid.get(row as i32 - 1, col as i32 + 1),
+                        grid.get(&coord.clone().apply(1, -1)),
+                        grid.get(&coord.clone().apply(-1, 1)),
                     ) {
                         (Some(c1), Some(c2)) => {
                             (*c1 == 'M' && *c2 == 'S') || (*c1 == 'S' && *c2 == 'M')
@@ -68,8 +71,8 @@ impl Solution for Day4 {
                     };
 
                     let diag2 = match (
-                        grid.get(row as i32 - 1, col as i32 - 1),
-                        grid.get(row as i32 + 1, col as i32 + 1),
+                        grid.get(&coord.clone().apply(1, 1)),
+                        grid.get(&coord.clone().apply(-1, -1)),
                     ) {
                         (Some(c1), Some(c2)) => {
                             (*c1 == 'M' && *c2 == 'S') || (*c1 == 'S' && *c2 == 'M')
@@ -96,7 +99,7 @@ fn get_grid(data: String) -> Vec2D<char> {
 
     for (row, line) in data.lines().enumerate() {
         for (col, ch) in line.chars().enumerate() {
-            grid.set(row, col, ch);
+            grid.set(&Coord::from_usize(row, col), ch);
         }
     }
 

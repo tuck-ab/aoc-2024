@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use crate::tools::{Vec2D, load_input};
+use crate::tools::{Vec2D, load_input, Coord, DIR4S};
 use crate::Solution;
 
 pub(crate) struct Day10;
@@ -14,8 +14,8 @@ impl Solution for Day10 {
 
         for start in zero_locs {
             // let mut nine_locs: HashSet<(usize, usize)> = HashSet::new();
-            let mut queue: BTreeSet<(u32, (i32, i32))> = BTreeSet::new();
-            let mut visited: BTreeSet<(i32, i32)> = BTreeSet::new();
+            let mut queue: BTreeSet<(u32, Coord)> = BTreeSet::new();
+            let mut visited: BTreeSet<Coord> = BTreeSet::new();
 
             queue.insert((0, start));
 
@@ -31,11 +31,11 @@ impl Solution for Day10 {
                     continue;
                 }
 
-                for dir in DIRS {
-                    let (n_row, n_col) = dir.apply(loc);
+                for dir in DIR4S {
+                    let n_coord = dir.step(loc);
                     
-                    match grid.get(n_row, n_col) {
-                        Some(val) => if *val == num + 1 {queue.insert((*val, (n_row, n_col)));},
+                    match grid.get(&n_coord) {
+                        Some(val) => if *val == num + 1 {queue.insert((*val, n_coord));},
                         None => {}
                     }
                 }
@@ -53,7 +53,7 @@ impl Solution for Day10 {
 
         for start in zero_locs {
             // let mut nine_locs: HashSet<(usize, usize)> = HashSet::new();
-            let mut stack: Vec<(u32, (i32, i32))> = Vec::new();
+            let mut stack: Vec<(u32, Coord)> = Vec::new();
             // let mut visited: BTreeSet<(i32, i32)> = BTreeSet::new();
 
             stack.push((0, start));
@@ -65,11 +65,11 @@ impl Solution for Day10 {
                     continue;
                 }
 
-                for dir in DIRS {
-                    let (n_row, n_col) = dir.apply(loc);
+                for dir in DIR4S {
+                    let n_coord = dir.step(loc);
                     
-                    match grid.get(n_row, n_col) {
-                        Some(val) => if *val == num + 1 {stack.push((*val, (n_row, n_col)));},
+                    match grid.get(&n_coord) {
+                        Some(val) => if *val == num + 1 {stack.push((*val, n_coord));},
                         None => {}
                     }
                 }
@@ -80,39 +80,40 @@ impl Solution for Day10 {
     }
 }
 
-enum Dirs {
-    Up,
-    Down,
-    Left,
-    Right,
-}
+// enum Dirs {
+//     Up,
+//     Down,
+//     Left,
+//     Right,
+// }
 
-const DIRS: [Dirs; 4] = [Dirs::Up, Dirs::Down, Dirs::Left, Dirs::Right];
+// const DIRS: [Dirs; 4] = [Dirs::Up, Dirs::Down, Dirs::Left, Dirs::Right];
 
-impl Dirs {
-    fn apply(&self, coord: (i32, i32)) -> (i32, i32) {
-        match self {
-            Dirs::Up => (coord.0 - 1, coord.1),
-            Dirs::Down => (coord.0 + 1, coord.1),
-            Dirs::Left => (coord.0, coord.1 -1),
-            Dirs::Right => (coord.0, coord.1 + 1)
-        }
-    }
-}
+// impl Dirs {
+//     fn apply(&self, coord: (i32, i32)) -> (i32, i32) {
+//         match self {
+//             Dirs::Up => (coord.0 - 1, coord.1),
+//             Dirs::Down => (coord.0 + 1, coord.1),
+//             Dirs::Left => (coord.0, coord.1 -1),
+//             Dirs::Right => (coord.0, coord.1 + 1)
+//         }
+//     }
+// }
 
-fn get_grid(data: &String) -> (Vec2D<u32>, Vec<(i32, i32)>) {
+fn get_grid(data: &String) -> (Vec2D<u32>, Vec<Coord>) {
     let cols = data.lines().next().unwrap().len();
     let rows = data.lines().count();
 
     let mut grid: Vec2D<u32> = Vec2D::new(rows, cols);
-    let mut locs: Vec<(i32, i32)> = Vec::new();
+    let mut locs: Vec<Coord> = Vec::new();
 
     for (row, line) in data.lines().enumerate() {
         for (col, ch) in line.chars().enumerate() {
             let num = ch.to_digit(10).unwrap();
-            grid.set(row, col, num);
+            let coord = Coord::from_usize(row, col);
+            grid.set(&coord, num);
             if num == 0 {
-                locs.push((row as i32, col as i32))
+                locs.push(coord)
             }
         }
     }

@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use crate::tools::{load_input, Vec2D};
+use crate::tools::{load_input, Coord, Vec2D, Dir4};
 use crate::Solution;
 
 pub(crate) struct Day6;
@@ -11,16 +11,15 @@ impl Solution for Day6 {
         let (mut grid, mut pos) = get_grid(data);
         let mut dir = 0;
 
-        let dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)];
-        grid.set(pos.0 as usize, pos.1 as usize, 'X');
+        let dirs = [Dir4::Up, Dir4::Right, Dir4::Down, Dir4::Left];
+        grid.set(&pos, 'X');
 
         loop {
-            let next_step = (pos.0 + dirs[dir].0, pos.1 + dirs[dir].1);
-
-            match &grid.get(next_step.0, next_step.1) {
+            let next_step = dirs[dir].step(pos);
+            match &grid.get(&next_step) {
                 Some('#') => dir = (dir + 1) % 4,
                 Some(_c) => {
-                    grid.set(next_step.0 as usize, next_step.1 as usize, 'X');
+                    grid.set(&next_step, 'X');
                     pos = next_step;
                 }
                 None => break,
@@ -37,67 +36,67 @@ impl Solution for Day6 {
         let mut dir = 0;
         let mut pos = start_pos.clone();
 
-        let dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)];
+        let dirs = [Dir4::Up, Dir4::Right, Dir4::Down, Dir4::Left];
 
         loop {
-            let next_step = (pos.0 + dirs[dir].0, pos.1 + dirs[dir].1);
-            match &grid.get(next_step.0, next_step.1) {
+            let next_step = dirs[dir].step(pos);
+            match &grid.get(&next_step) {
                 Some('#') => dir = (dir + 1) % 4,
                 Some(_c) => {
-                    grid.set(next_step.0 as usize, next_step.1 as usize, 'X');
+                    grid.set(&next_step, 'X');
                     pos = next_step;
                 }
                 None => break,
             }
         }
 
-        let path_points: Vec<(usize, usize)> = grid
+        let path_points: Vec<Coord> = grid
             .data()
             .iter()
             .enumerate()
             .filter(|(_, c)| **c == 'X')
-            .map(|(i, _)| grid.get_loc(i))
+            .map(|(i, _)| grid.get_coord(i))
             .collect();
 
         let mut total = 0;
-        for (row, col) in path_points {
-            grid.set(row, col, '#');
+        for coord in path_points {
+            grid.set(&coord, '#');
             let mut pos = start_pos.clone();
             let mut dir = 0;
-            let mut seen: HashSet<((i32, i32), usize)> = HashSet::new();
+            let mut seen: HashSet<(Coord, usize)> = HashSet::new();
             loop {
-                let next_step = (pos.0 + dirs[dir].0, pos.1 + dirs[dir].1);
+                let next_step = dirs[dir].step(pos);
                 if seen.contains(&(pos, dir)) {
                     total += 1;
                     break;
                 }
                 seen.insert((pos, dir));
-                match &grid.get(next_step.0, next_step.1) {
+                match &grid.get(&next_step) {
                     Some('#') => dir = (dir + 1) % 4,
                     Some(_c) => pos = next_step,
                     None => break,
                 }
             }
-            grid.set(row, col, 'X');
+            grid.set(&coord, 'X');
         }
 
         total.to_string()
     }
 }
 
-fn get_grid(data: String) -> (Vec2D<char>, (i32, i32)) {
+fn get_grid(data: String) -> (Vec2D<char>, Coord) {
     let cols = data.lines().next().unwrap().len();
     let rows = data.lines().count();
 
     let mut grid = Vec2D::<char>::new(rows, cols);
-    let mut start_pos: (i32, i32) = (0, 0);
+    let mut start_pos: Coord = Coord::new(0, 0);
 
     for (row, line) in data.lines().enumerate() {
         for (col, ch) in line.chars().enumerate() {
-            grid.set(row, col, ch);
+            grid.set(&Coord::from_usize(row, col), ch);
 
             if ch == '^' {
-                start_pos = (row as i32, col as i32)
+                start_pos = Coord::from_usize(row, col);
             }
         }
     }
