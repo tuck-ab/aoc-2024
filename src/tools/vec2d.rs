@@ -46,27 +46,27 @@ impl Dir4 {
 
 pub const DIR4S: [Dir4; 4] = [Dir4::Up, Dir4::Right, Dir4::Down, Dir4::Left];
 
-pub enum Dir8 {
-    Up,
-    UpRight,
-    Right,
-    DownRight,
-    Down,
-    DownLeft,
-    Left,
-    UpLeft,
-}
+// pub enum Dir8 {
+//     Up,
+//     UpRight,
+//     Right,
+//     DownRight,
+//     Down,
+//     DownLeft,
+//     Left,
+//     UpLeft,
+// }
 
-pub const DIR8S: [Dir8; 8] = [
-    Dir8::Up,
-    Dir8::UpRight,
-    Dir8::Right,
-    Dir8::DownRight,
-    Dir8::Down,
-    Dir8::DownLeft,
-    Dir8::Left,
-    Dir8::UpLeft,
-];
+// pub const DIR8S: [Dir8; 8] = [
+//     Dir8::Up,
+//     Dir8::UpRight,
+//     Dir8::Right,
+//     Dir8::DownRight,
+//     Dir8::Down,
+//     Dir8::DownLeft,
+//     Dir8::Left,
+//     Dir8::UpLeft,
+// ];
 
 pub struct Vec2D<T> {
     data: Vec<T>,
