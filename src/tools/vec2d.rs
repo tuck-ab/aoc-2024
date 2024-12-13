@@ -25,6 +25,7 @@ impl Coord {
     }
 }
 
+#[derive(PartialEq, Eq, PartialOrd, Ord, Debug, Clone, Copy)]
 pub enum Dir4 {
     Up,
     Right,
