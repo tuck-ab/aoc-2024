@@ -77,6 +77,5 @@ fn run_part<T: Solution>(part: u8) -> String {
     }
 }
 
-
 #[cfg(test)]
 mod tests;

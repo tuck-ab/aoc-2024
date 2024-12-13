@@ -17,7 +17,7 @@ impl Solution for Day7 {
                 .map(|l| l.parse().expect("Couldn't parse nubmer"))
                 .collect();
             total += run_line(target, &vals, &vec![Op::Add, Op::Mul]).unwrap_or(0);
-        } 
+        }
 
         total.to_string()
     }

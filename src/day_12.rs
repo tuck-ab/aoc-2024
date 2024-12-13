@@ -109,11 +109,21 @@ impl Solution for Day12 {
                 let mut edges = 0;
 
                 // Run vertically
-                for row in *furthest.get(&Dir4::Up).unwrap()-1..*furthest.get(&Dir4::Down).unwrap()+1 {
+                for row in
+                    *furthest.get(&Dir4::Up).unwrap() - 1..*furthest.get(&Dir4::Down).unwrap() + 1
+                {
                     let mut block = 0;
-                    for col in *furthest.get(&Dir4::Left).unwrap()..*furthest.get(&Dir4::Right).unwrap()+1 {
-                        let c1 = shape.contains(&Coord::new(row, col)).then(|| 1).unwrap_or(0);
-                        let c2 = shape.contains(&Coord::new(row+1, col)).then(|| 2).unwrap_or(0);
+                    for col in *furthest.get(&Dir4::Left).unwrap()
+                        ..*furthest.get(&Dir4::Right).unwrap() + 1
+                    {
+                        let c1 = shape
+                            .contains(&Coord::new(row, col))
+                            .then(|| 1)
+                            .unwrap_or(0);
+                        let c2 = shape
+                            .contains(&Coord::new(row + 1, col))
+                            .then(|| 2)
+                            .unwrap_or(0);
 
                         if block == 0 && ((c1 != 0) ^ (c2 != 0)) {
                             block = c1 | c2;
@@ -128,11 +138,21 @@ impl Solution for Day12 {
                 }
 
                 // Run horizontally
-                for col in *furthest.get(&Dir4::Left).unwrap()-1..*furthest.get(&Dir4::Right).unwrap()+1 {
+                for col in *furthest.get(&Dir4::Left).unwrap() - 1
+                    ..*furthest.get(&Dir4::Right).unwrap() + 1
+                {
                     let mut block = 0;
-                    for row in *furthest.get(&Dir4::Up).unwrap()..*furthest.get(&Dir4::Down).unwrap()+1 {
-                        let c1 = shape.contains(&Coord::new(row, col)).then(|| 1).unwrap_or(0);
-                        let c2 = shape.contains(&Coord::new(row, col+1)).then(|| 2).unwrap_or(0);
+                    for row in
+                        *furthest.get(&Dir4::Up).unwrap()..*furthest.get(&Dir4::Down).unwrap() + 1
+                    {
+                        let c1 = shape
+                            .contains(&Coord::new(row, col))
+                            .then(|| 1)
+                            .unwrap_or(0);
+                        let c2 = shape
+                            .contains(&Coord::new(row, col + 1))
+                            .then(|| 2)
+                            .unwrap_or(0);
 
                         if block == 0 && ((c1 != 0) ^ (c2 != 0)) {
                             block = c1 | c2;
@@ -143,14 +163,13 @@ impl Solution for Day12 {
                             block = c1 | c2;
                             edges += 1;
                         }
-                        
                     }
                 }
 
                 total += edges * area;
             }
         }
-       
+
         total.to_string()
     }
 }

@@ -13,7 +13,7 @@ impl Solution for Day13 {
         let mut total = 0;
 
         for game in games {
-            let b = ((game.but_a.dx * game.prize_y) / game.but_a.dy - game.prize_x ) 
+            let b = ((game.but_a.dx * game.prize_y) / game.but_a.dy - game.prize_x)
                 / ((game.but_a.dx * game.but_b.dy) / game.but_a.dy - game.but_b.dx);
             let a = (game.prize_y - game.but_b.dy * b) / game.but_a.dy;
 
@@ -34,7 +34,7 @@ impl Solution for Day13 {
         for game in games.iter_mut() {
             game.prize_x += 10000000000000.0;
             game.prize_y += 10000000000000.0;
-            let b = ((game.but_a.dx * game.prize_y) / game.but_a.dy - game.prize_x ) 
+            let b = ((game.but_a.dx * game.prize_y) / game.but_a.dy - game.prize_x)
                 / ((game.but_a.dx * game.but_b.dy) / game.but_a.dy - game.but_b.dx);
             let a = (game.prize_y - game.but_b.dy * b) / game.but_a.dy;
 

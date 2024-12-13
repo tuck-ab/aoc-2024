@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use crate::tools::{load_input, Coord, Vec2D, Dir4};
+use crate::tools::{load_input, Coord, Dir4, Vec2D};
 use crate::Solution;
 
 pub(crate) struct Day6;
@@ -26,7 +26,11 @@ impl Solution for Day6 {
             }
         }
 
-        grid.data().iter().filter(|c| **c == 'X').count().to_string()
+        grid.data()
+            .iter()
+            .filter(|c| **c == 'X')
+            .count()
+            .to_string()
     }
 
     fn part_2() -> String {

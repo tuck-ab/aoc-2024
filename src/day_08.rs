@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 
 use itertools::Itertools;
 
-use crate::tools::{load_input, Vec2D, Coord};
+use crate::tools::{load_input, Coord, Vec2D};
 use crate::Solution;
 
 pub(crate) struct Day8;

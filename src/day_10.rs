@@ -1,6 +1,6 @@
 use std::collections::BTreeSet;
 
-use crate::tools::{Vec2D, load_input, Coord, DIR4S};
+use crate::tools::{load_input, Coord, Vec2D, DIR4S};
 use crate::Solution;
 
 pub(crate) struct Day10;
@@ -19,7 +19,7 @@ impl Solution for Day10 {
 
             queue.insert((0, start));
 
-            while !queue.is_empty(){
+            while !queue.is_empty() {
                 let (num, loc) = queue.pop_last().unwrap();
                 if visited.contains(&loc) {
                     continue;
@@ -33,9 +33,13 @@ impl Solution for Day10 {
 
                 for dir in DIR4S {
                     let n_coord = dir.step(loc);
-                    
+
                     match grid.get(&n_coord) {
-                        Some(val) => if *val == num + 1 {queue.insert((*val, n_coord));},
+                        Some(val) => {
+                            if *val == num + 1 {
+                                queue.insert((*val, n_coord));
+                            }
+                        }
                         None => {}
                     }
                 }
@@ -58,7 +62,7 @@ impl Solution for Day10 {
 
             stack.push((0, start));
 
-            while !stack.is_empty(){
+            while !stack.is_empty() {
                 let (num, loc) = stack.pop().unwrap();
                 if num == 9 {
                     total += 1;
@@ -67,9 +71,13 @@ impl Solution for Day10 {
 
                 for dir in DIR4S {
                     let n_coord = dir.step(loc);
-                    
+
                     match grid.get(&n_coord) {
-                        Some(val) => if *val == num + 1 {stack.push((*val, n_coord));},
+                        Some(val) => {
+                            if *val == num + 1 {
+                                stack.push((*val, n_coord));
+                            }
+                        }
                         None => {}
                     }
                 }

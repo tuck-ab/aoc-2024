@@ -84,10 +84,12 @@ impl Solution for Day9 {
         // println!("{:?}", compressed);
         for data in pairs[1..].iter().rev() {
             let c_index = compressed
-                    .iter()
-                    .position(|current_data| current_data.id == data.id)
-                    .unwrap();
-            let slot: Option<usize> = compressed[0..c_index].iter().position(|d| d.blank >= data.size);
+                .iter()
+                .position(|current_data| current_data.id == data.id)
+                .unwrap();
+            let slot: Option<usize> = compressed[0..c_index]
+                .iter()
+                .position(|d| d.blank >= data.size);
             // print!("{:?}", data);
             if let Some(index) = slot {
                 compressed[c_index - 1].blank += data.size + compressed[c_index].blank;
@@ -97,7 +99,7 @@ impl Solution for Day9 {
                 to_move.blank = new_rest;
                 compressed.insert(index + 1, to_move)
             }
-            
+
             // println!("{:?}", compressed);
         }
 
