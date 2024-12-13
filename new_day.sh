@@ -57,7 +57,7 @@ sed -i "s/mod day_${target_mod};/mod day_${target_mod};\nmod day_${DAY};/" src/m
 
 # Add the entrypoing in main
 function generate_run_line {
-    echo "        $1 => run::<day_$1::Day$1>(args.part),"
+    echo "        $1 => run_part::<day_$1::Day$1>(part),"
 }
 sed -i "s/$(generate_run_line $target_mod)/$(generate_run_line $target_mod)\n$(generate_run_line $DAY)/" src/main.rs
 

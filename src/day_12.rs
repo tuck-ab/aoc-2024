@@ -1,7 +1,7 @@
 use std::cmp::{max, min};
 use std::collections::{BTreeMap, BTreeSet};
 
-use crate::tools::{load_demo, load_input, Coord, Dir4, Vec2D, DIR4S};
+use crate::tools::{load_input, Coord, Dir4, Vec2D, DIR4S};
 use crate::Solution;
 
 pub(crate) struct Day12;
