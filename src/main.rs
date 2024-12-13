@@ -17,6 +17,7 @@ mod day_09;
 mod day_10;
 mod day_11;
 mod day_12;
+mod day_13;
 
 /// Args doc comment
 #[derive(Parser, Debug)]
@@ -63,6 +64,7 @@ pub fn run(day: u8, part: u8) -> String {
         10 => run_part::<day_10::Day10>(part),
         11 => run_part::<day_11::Day11>(part),
         12 => run_part::<day_12::Day12>(part),
+        13 => run_part::<day_13::Day13>(part),
         _ => panic!("Day '{}' not implemented", day),
     }
 }
