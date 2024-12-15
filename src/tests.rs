@@ -37,3 +37,5 @@ test_solution!(day_13_1, 13, 1, "28887");
 test_solution!(day_13_2, 13, 2, "96979582619758");
 test_solution!(day_14_1, 14, 1, "218433348");
 test_solution!(day_14_2, 14, 2, "6512");
+test_solution!(day_15_1, 15, 1, "1441031");
+test_solution!(day_15_2, 15, 2, "1425169");
