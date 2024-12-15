@@ -42,6 +42,13 @@ impl Dir4 {
             Self::Left => coord.apply(0, -1),
         }
     }
+
+    pub fn is_vert(&self) -> bool {
+        match *self {
+            Self::Up | Self::Down => true,
+            Self::Left | Self::Right => false,
+        }
+    }
 }
 
 pub const DIR4S: [Dir4; 4] = [Dir4::Up, Dir4::Right, Dir4::Down, Dir4::Left];
@@ -68,6 +75,7 @@ pub const DIR4S: [Dir4; 4] = [Dir4::Up, Dir4::Right, Dir4::Down, Dir4::Left];
 //     Dir8::UpLeft,
 // ];
 
+#[derive(Clone)]
 pub struct Vec2D<T> {
     data: Vec<T>,
     rows: usize,
