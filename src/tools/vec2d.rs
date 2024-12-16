@@ -43,10 +43,28 @@ impl Dir4 {
         }
     }
 
+    pub fn step_back(&self, coord: Coord) -> Coord {
+        match self {
+            Self::Up => coord.apply(1, 0),
+            Self::Right => coord.apply(0, -1),
+            Self::Down => coord.apply(-1, 0),
+            Self::Left => coord.apply(0, 1),
+        }
+    }
+
     pub fn is_vert(&self) -> bool {
         match *self {
             Self::Up | Self::Down => true,
             Self::Left | Self::Right => false,
+        }
+    }
+
+    pub fn rotate(&self) -> Self {
+        match *self {
+            Self::Up => Self::Right,
+            Self::Right => Self::Down,
+            Self::Down => Self::Left,
+            Self::Left => Self::Up,
         }
     }
 }
