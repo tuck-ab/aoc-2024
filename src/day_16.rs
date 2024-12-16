@@ -7,7 +7,7 @@ pub(crate) struct Day16;
 
 impl Solution for Day16 {
     fn part_1() -> String {
-        let data = load_demo(16);
+        let data = load_input(16);
         let (grid, start_pos, end_pos) = get_grid(data);
 
         let mut queue: BTreeMap<u32, Vec<(Dir4, Coord)>> = BTreeMap::new();
@@ -15,10 +15,9 @@ impl Solution for Day16 {
 
         queue.entry(0).or_default().push((Dir4::Right, start_pos));
 
-        let mut path_length = 0;
+        let path_length;
 
         loop {
-            // println!("{:?}\n", queue);
             let key = queue.first_entry().unwrap().key().clone();
             let (dir, pos) = queue.get_mut(&key).unwrap().pop().unwrap();
 
@@ -26,10 +25,6 @@ impl Solution for Day16 {
                 path_length = key;
                 break;
             }
-
-            // if key > 3000 {
-            //     panic!()
-            // }
 
             if queue.get(&key).unwrap().is_empty() {
                 let _ = queue.remove(&key);
@@ -46,18 +41,11 @@ impl Solution for Day16 {
                 if let Some(item) = grid.get(&new_coord) {
                     if *item == Item::Space && !seen.contains(&new_coord) {
                         queue
-                            .entry(key + 1 + 1000*(dir.rotations(&d) as u32 % 2))
+                            .entry(key + 1 + 1000 * (dir.rotations(&d) as u32 % 2))
                             .or_default()
                             .push((d.clone(), new_coord))
                     }
                 }
-                // if !seen.contains(&new_coord) {
-                //     if *d == dir {
-                //         queue.entry(key+1).or_default().push((d.clone(), new_coord))
-                //     } else {
-                //         queue.entry(key+1001).or_default().push((d.clone(), new_coord))
-                //     }
-                // }
             }
         }
 
@@ -66,7 +54,62 @@ impl Solution for Day16 {
 
     fn part_2() -> String {
         let data = load_input(16);
-        "Day 16, part 2".to_string()
+        let (grid, start_pos, end_pos) = get_grid(data);
+
+        let mut queue: BTreeMap<u32, BTreeMap<(Dir4, Coord), BTreeSet<Coord>>> = BTreeMap::new();
+        let mut seen: BTreeSet<(Dir4, Coord)> = BTreeSet::new();
+
+        queue
+            .entry(0)
+            .or_default()
+            .insert((Dir4::Right, start_pos), BTreeSet::from_iter([start_pos]));
+        let seats;
+
+        loop {
+            let key = queue.first_entry().unwrap().key().clone();
+
+            let ((dir, pos), mut set) = queue.get_mut(&key).unwrap().pop_first().unwrap();
+
+            if pos == end_pos {
+                seats = set.len();
+                break;
+            }
+
+            set.insert(pos.clone());
+
+            if queue.get(&key).unwrap().is_empty() {
+                let _ = queue.remove(&key);
+            }
+
+            if seen.contains(&(dir, pos)) {
+                continue;
+            }
+
+            seen.insert((dir.clone(), pos.clone()));
+
+            let new_coord = dir.step(pos.clone());
+            if *grid.get(&new_coord).unwrap() == Item::Space && !seen.contains(&(dir, new_coord)) {
+                queue
+                    .entry(key + 1)
+                    .or_default()
+                    .entry((dir.clone(), new_coord))
+                    .or_default()
+                    .append(&mut (set.clone()));
+            }
+
+            for d in DIR4S.iter() {
+                    if !seen.contains(&(d.clone(), pos)) {
+                        queue
+                            .entry(key + 1000 * (dir.rotations(&d) as u32 % 2))
+                            .or_default()
+                            .entry((d.clone(), pos))
+                            .or_default()
+                            .append(&mut (set.clone()));
+                }
+            }
+        }
+
+        (seats + 1).to_string()
     }
 }
 
