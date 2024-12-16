@@ -27,10 +27,10 @@ impl Coord {
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Debug, Clone, Copy)]
 pub enum Dir4 {
-    Up,
-    Right,
-    Down,
-    Left,
+    Up = 0,
+    Right = 1,
+    Down = 2,
+    Left = 3,
 }
 
 impl Dir4 {
@@ -66,6 +66,10 @@ impl Dir4 {
             Self::Down => Self::Left,
             Self::Left => Self::Up,
         }
+    }
+
+    pub fn rotations(&self, other: &Self) -> i32 {
+        (*other as i32 - *self as i32).rem_euclid(4)
     }
 }
 
