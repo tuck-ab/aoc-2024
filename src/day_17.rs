@@ -64,13 +64,11 @@ impl Solution for Day17 {
         let program = Program::from_data(data);
         let mut targets: Vec<u64> = program.program.iter().map(|n| *n as u64).collect();
 
-        let res = calc_sol(&mut targets, 0);
-
-        res.unwrap().to_string()
+        find_input(&mut targets, 0).unwrap().to_string()
     }
 }
 
-fn calc_sol(targets: &mut Vec<u64>, global_a: u64) -> Option<u64> {
+fn find_input(targets: &mut Vec<u64>, global_a: u64) -> Option<u64> {
     let target = match targets.pop() {
         Some(a) => a,
         None => return Some(global_a),
@@ -85,7 +83,7 @@ fn calc_sol(targets: &mut Vec<u64>, global_a: u64) -> Option<u64> {
         b = b ^ 4;
 
         if b % 8 == target {
-            match calc_sol(targets, a) {
+            match find_input(targets, a) {
                 Some(a) => return Some(a),
                 None => {}
             };
