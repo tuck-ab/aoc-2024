@@ -1,4 +1,5 @@
 use std::time::Instant;
+use std::env::set_var;
 
 use clap::Parser;
 
@@ -23,7 +24,7 @@ mod day_15;
 mod day_16;
 mod day_17;
 
-/// Args doc comment
+/// AOC 2024 solutions
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
@@ -34,6 +35,10 @@ struct Args {
     /// Puzzle part
     #[arg(short, long)]
     part: u8,
+
+    /// Use demo input
+    #[arg(long)]
+    debug: bool
 }
 
 pub(crate) trait Solution {
@@ -43,6 +48,10 @@ pub(crate) trait Solution {
 
 fn main() {
     let args = Args::parse();
+
+    if args.debug {
+        set_var("DEBUG", "true");
+    }
 
     let start_time = Instant::now();
     let answer = run(args.day, args.part);
