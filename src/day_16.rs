@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use crate::tools::{load_demo, load_input, Coord, Dir4, Vec2D, DIR4S};
+use crate::tools::{load_input, Coord, Dir4, Vec2D, DIR4S};
 use crate::Solution;
 
 pub(crate) struct Day16;
@@ -98,13 +98,13 @@ impl Solution for Day16 {
             }
 
             for d in DIR4S.iter() {
-                    if !seen.contains(&(d.clone(), pos)) {
-                        queue
-                            .entry(key + 1000 * (dir.rotations(&d) as u32 % 2))
-                            .or_default()
-                            .entry((d.clone(), pos))
-                            .or_default()
-                            .append(&mut (set.clone()));
+                if !seen.contains(&(d.clone(), pos)) {
+                    queue
+                        .entry(key + 1000 * (dir.rotations(&d) as u32 % 2))
+                        .or_default()
+                        .entry((d.clone(), pos))
+                        .or_default()
+                        .append(&mut (set.clone()));
                 }
             }
         }

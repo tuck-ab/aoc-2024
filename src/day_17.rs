@@ -6,12 +6,12 @@ use crate::Solution;
 
 pub(crate) struct Day17;
 
-/* 
+/*
 Register A: 46337277
 Register B: 0
 Register C: 0
 
-Program: 
+Program:
 2,4, // B = A % 8
 1,1, // B = B XOR 000001
 7,5, // C = A // 2**B
