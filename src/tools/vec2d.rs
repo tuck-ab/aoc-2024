@@ -23,6 +23,10 @@ impl Coord {
         self.col += dc;
         self
     }
+
+    pub fn l1_dist(&self, other: &Self) -> i32 {
+        (self.row - other.row).abs() + (self.col - other.col).abs()
+    }
 }
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Debug, Clone, Copy)]

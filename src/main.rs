@@ -1,5 +1,5 @@
-use std::time::Instant;
 use std::env::set_var;
+use std::time::Instant;
 
 use clap::Parser;
 
@@ -23,6 +23,7 @@ mod day_14;
 mod day_15;
 mod day_16;
 mod day_17;
+mod day_18;
 
 /// AOC 2024 solutions
 #[derive(Parser, Debug)]
@@ -38,7 +39,7 @@ struct Args {
 
     /// Use demo input
     #[arg(long)]
-    debug: bool
+    debug: bool,
 }
 
 pub(crate) trait Solution {
@@ -82,6 +83,7 @@ pub fn run(day: u8, part: u8) -> String {
         15 => run_part::<day_15::Day15>(part),
         16 => run_part::<day_16::Day16>(part),
         17 => run_part::<day_17::Day17>(part),
+        18 => run_part::<day_18::Day18>(part),
         _ => panic!("Day '{}' not implemented", day),
     }
 }
