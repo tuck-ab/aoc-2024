@@ -25,6 +25,7 @@ mod day_16;
 mod day_17;
 mod day_18;
 mod day_19;
+mod day_20;
 
 /// AOC 2024 solutions
 #[derive(Parser, Debug)]
@@ -86,6 +87,7 @@ pub fn run(day: u8, part: u8) -> String {
         17 => run_part::<day_17::Day17>(part),
         18 => run_part::<day_18::Day18>(part),
         19 => run_part::<day_19::Day19>(part),
+        20 => run_part::<day_20::Day20>(part),
         _ => panic!("Day '{}' not implemented", day),
     }
 }
