@@ -1,5 +1,5 @@
-use std::collections::{BTreeMap, BTreeSet};
 use std::cmp::min;
+use std::collections::{BTreeMap, BTreeSet};
 
 use itertools::Itertools;
 use regex::Regex;
@@ -40,7 +40,7 @@ impl Solution for Day21 {
                     }
                     min_score = match min_score {
                         Some(n) => Some(min(n, val)),
-                        None => Some(val)
+                        None => Some(val),
                     }
                 }
                 instructions += min_score.unwrap();
@@ -81,7 +81,7 @@ impl Solution for Day21 {
                     }
                     min_score = match min_score {
                         Some(n) => Some(min(n, val)),
-                        None => Some(val)
+                        None => Some(val),
                     }
                 }
                 instructions += min_score.unwrap();
@@ -114,9 +114,14 @@ fn get_first_posibilites(from: &Coord, to: &Coord, bad: &Coord) -> BTreeSet<Vec<
     options.first_key_value().unwrap().1.clone()
 }
 
-fn get_length(from: &DirPad, to: &DirPad, level: u64, cache: &mut BTreeMap<(DirPad, DirPad, u64), u64>) -> u64 {
+fn get_length(
+    from: &DirPad,
+    to: &DirPad,
+    level: u64,
+    cache: &mut BTreeMap<(DirPad, DirPad, u64), u64>,
+) -> u64 {
     if level == 0 {
-        return 1
+        return 1;
     }
 
     let key = (*from, *to, level);
@@ -141,11 +146,11 @@ fn get_length(from: &DirPad, to: &DirPad, level: u64, cache: &mut BTreeMap<(DirP
 
         let mut total_length = 0;
         for ds in perm.as_slice().windows(2) {
-            total_length += get_length(&ds[0], &ds[1], level-1, cache)
+            total_length += get_length(&ds[0], &ds[1], level - 1, cache)
         }
         total = match total {
             Some(n) => Some(min(n, total_length)),
-            None => Some(total_length)
+            None => Some(total_length),
         }
     }
 

@@ -24,7 +24,7 @@ impl Solution for Day22 {
 
     fn part_2() -> String {
         let data = load_input(22);
-        
+
         let mut buyers_maps: BTreeMap<(i32, i32, i32, i32), u64> = BTreeMap::new();
 
         for line in data.lines() {
