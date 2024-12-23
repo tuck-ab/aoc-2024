@@ -53,3 +53,5 @@ test_solution!(day_21_1, 21, 1, "184718");
 test_solution!(day_21_2, 21, 2, "228800606998554");
 test_solution!(day_22_1, 22, 1, "20411980517");
 test_solution!(day_22_2, 22, 2, "2362");
+test_solution!(day_23_1, 23, 1, "1240");
+test_solution!(day_23_2, 23, 2, "am,aq,by,ge,gf,ie,mr,mt,rw,sn,te,yi,zb");
