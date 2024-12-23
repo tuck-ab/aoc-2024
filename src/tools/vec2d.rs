@@ -27,6 +27,11 @@ impl Coord {
     pub fn l1_dist(&self, other: &Self) -> i32 {
         (self.row - other.row).abs() + (self.col - other.col).abs()
     }
+
+    /// Get the delta row and delta column between two coords
+    pub fn dr_dc(&self, other: &Self) -> (i32, i32) {
+        (other.row - self.row, other.col - self.col)
+    }
 }
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Debug, Clone, Copy)]
