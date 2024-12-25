@@ -57,3 +57,4 @@ test_solution!(day_23_1, 23, 1, "1240");
 test_solution!(day_23_2, 23, 2, "am,aq,by,ge,gf,ie,mr,mt,rw,sn,te,yi,zb");
 test_solution!(day_24_1, 24, 1, "49574189473968");
 test_solution!(day_24_2, 24, 2, "ckb,kbs,ksv,nbd,tqq,z06,z20,z39");
+test_solution!(day_25_1, 25, 1, "3495");
