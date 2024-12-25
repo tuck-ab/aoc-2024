@@ -52,28 +52,10 @@ impl Dir4 {
         }
     }
 
-    pub fn step_back(&self, coord: Coord) -> Coord {
-        match self {
-            Self::Up => coord.apply(1, 0),
-            Self::Right => coord.apply(0, -1),
-            Self::Down => coord.apply(-1, 0),
-            Self::Left => coord.apply(0, 1),
-        }
-    }
-
     pub fn is_vert(&self) -> bool {
         match *self {
             Self::Up | Self::Down => true,
             Self::Left | Self::Right => false,
-        }
-    }
-
-    pub fn rotate(&self) -> Self {
-        match *self {
-            Self::Up => Self::Right,
-            Self::Right => Self::Down,
-            Self::Down => Self::Left,
-            Self::Left => Self::Up,
         }
     }
 
@@ -83,28 +65,6 @@ impl Dir4 {
 }
 
 pub const DIR4S: [Dir4; 4] = [Dir4::Up, Dir4::Right, Dir4::Down, Dir4::Left];
-
-// pub enum Dir8 {
-//     Up,
-//     UpRight,
-//     Right,
-//     DownRight,
-//     Down,
-//     DownLeft,
-//     Left,
-//     UpLeft,
-// }
-
-// pub const DIR8S: [Dir8; 8] = [
-//     Dir8::Up,
-//     Dir8::UpRight,
-//     Dir8::Right,
-//     Dir8::DownRight,
-//     Dir8::Down,
-//     Dir8::DownLeft,
-//     Dir8::Left,
-//     Dir8::UpLeft,
-// ];
 
 #[derive(Clone)]
 pub struct Vec2D<T> {
